@@ -17,7 +17,11 @@
     "commit": "git add . && git cz"
   },
   "dependencies": {
+    "@octokit/core": "^3.4.0",
+    "@octokit/graphql": "^4.6.1",
+    "@octokit/rest": "^18.5.3",
     "git-cz": "^4.7.6",
+    "octokit": "^1.0.3",
     "probot": "^11.0.1"
   },
   "devDependencies": {
