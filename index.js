@@ -3,8 +3,7 @@
  * @param {import('probot').Probot} app
  */
 
-const { graphql } = require("@octokit/graphql");
-const { Octokit } = require("@octokit/core");
+// only for testing purpose
 const q = `query {
   viewer{
     email
@@ -16,16 +15,16 @@ const q = `query {
          endCursor
          hasNextPage
          hasPreviousPage
-       
+
        }
        totalDiskUsage
        totalCount
        nodes{
-        
+
          name
        }
       edges{
-        
+
         cursor
         node{
           name
@@ -36,35 +35,50 @@ const q = `query {
   }`;
 module.exports = async (app) => {
   app.log.info("Yay, the app was loaded!");
-  // const octokit = new Octokit({ auth: `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` });
+  // only for testing purpose
 
-  // const response = await octokit.request("GET /orgs/NodeGitApps/repos", {
-  //   org: "NodeGitApps",
-  //   type: "public",
-  // });
-  const octokit = new Octokit({
-    auth: `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`,
-  });
   // app.onAny(async (context) => {
   //   const a = await context.octokit.graphql(q);
   //   console.log(a.viewer.repositories.edges);
   // });
 
+  // once the app is installed get username and associated repositories
   app.on("installation.created", async (context) => {
-    console.log("new user installed the app");
+    handleInstall(context);
   });
 
+  //once the app is uninstalled get username and associated repositories
   app.on("installation.deleted", async (context) => {
-    console.log("user delted the app");
+    handleUnintall(context);
   });
-  const response = await octokit.graphql(q);
-  //console.log(response.viewer.repositories.nodes)
+
   app.on("issues.opened", async (context) => {
     const issueComment = context.issue({
       body: "Thanks for opening this issue!",
     });
-    const a = await context.octokit.graphql(q);
-    console.log(a.viewer.repositories.edges);
+
     return context.octokit.issues.createComment(issueComment);
+  });
+};
+
+// function to handle when installation event occurs
+const handleInstall = (context) => {
+  console.log("new user installed the app");
+  const user = context.payload.installation.account.login;
+  const repos = context.payload.repositories;
+  console.log(user);
+  repos.forEach((r) => {
+    console.log(r.name);
+  });
+};
+
+// function to handle when uninstall event occurs
+const handleUnintall = (context) => {
+  console.log("user delted the app");
+  const user = context.payload.installation.account.login;
+  const repos = context.payload.repositories;
+  console.log(user);
+  repos.forEach((r) => {
+    console.log(r.name);
   });
 };
