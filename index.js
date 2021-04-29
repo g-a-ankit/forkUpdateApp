@@ -67,8 +67,8 @@ const handleInstall = (context) => {
   const user = context.payload.installation.account.login;
   const repos = context.payload.repositories;
   console.log(user);
-  repos.forEach((r) => {
-    console.log(r.name);
+  repos.forEach((repo) => {
+    console.log(repo.name);
   });
 };
 
@@ -78,7 +78,7 @@ const handleUnintall = (context) => {
   const user = context.payload.installation.account.login;
   const repos = context.payload.repositories;
   console.log(user);
-  repos.forEach((r) => {
-    console.log(r.name);
+  repos.forEach((repo) => {
+    console.log(repo.name);
   });
 };
