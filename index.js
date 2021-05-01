@@ -4,6 +4,10 @@
  */
 
 // only for testing purpose
+const { PrismaClient } = require("@prisma/client");
+// const VISIBILITY = require("./prisma/schema.prisma/");
+const prisma = new PrismaClient();
+
 const q = `query {
   viewer{
     email
@@ -56,7 +60,30 @@ module.exports = async (app) => {
     const issueComment = context.issue({
       body: "Thanks for opening this issue!",
     });
-
+    console.log("inserting into db ");
+    const db = await prisma.user.create;
+    ({
+      data: {
+        name: "ankit",
+        email: "ankit@localhost",
+        repoCount: 10,
+        forkCount: 1,
+        // repos: {
+        //   name: "testing",
+        //   created_at: "then",
+        //   updated_at: "now",
+        //   // visibility: VISIBILITY.PUBLIC,
+        // },
+        // forkedrepos: {
+        //   name: "testing 2",
+        //   parent: "me",
+        //   created_at: "then",
+        //   updated_at: "now",
+        // },
+      },
+    });
+    console.log("data into db ", db);
+    console.log("data ", await prisma.user.findMany());
     return context.octokit.issues.createComment(issueComment);
   });
 };
