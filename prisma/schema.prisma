@@ -17,9 +17,9 @@ enum VISIBILITY{
 model User {
   id String @default(cuid()) @id
   name String
-  email String
+  email String? @default("NONE")
   repoCount Int
-  forkCount Int
+  forkCount Int @default(0)
   repos Repository[]
   forkedrepos ForkedRepository[]
 }
@@ -31,7 +31,7 @@ model Repository{
   owner_id String
   created_at String
   updated_at String
-  visibility VISIBILITY
+  visibility VISIBILITY?
 
 }
 
@@ -43,4 +43,10 @@ model ForkedRepository{
   parent String
   created_at String
   updated_at String
+}
+model test{
+  id String @default(cuid()) @id
+  name String
+  email String
+  count Int
 }

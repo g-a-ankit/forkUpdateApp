@@ -21,6 +21,7 @@
     "@octokit/graphql": "^4.6.1",
     "@octokit/rest": "^18.5.3",
     "git-cz": "^4.7.6",
+    "lodash": "^4.17.21",
     "octokit": "^1.0.3",
     "probot": "^11.0.1"
   },
