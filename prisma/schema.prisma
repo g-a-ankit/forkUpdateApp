@@ -10,12 +10,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
+enum VISIBILITY{
+  PRIVATE
+  PUBLIC
+}
 model User {
   id String @default(cuid()) @id
   name String
   email String
   repoCount Int
   forkCount Int
-  
+  repos Repository[]
+  forkedrepos ForkedRepository[]
+}
+
+model Repository{
+  id String @default(cuid()) @id
+  name String
+  owner User @relation(fields: [owner_id], references:[id])
+  owner_id String
+  created_at String
+  updated_at String
+  visibility VISIBILITY
+
+}
+
+model ForkedRepository{
+  id String @default(cuid())@id
+  name String
+  owner User @relation(fields: [owner_id],references:[id])
+  owner_id String
+  parent String
+  created_at String
+  updated_at String
 }
